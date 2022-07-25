@@ -22,12 +22,12 @@ steps:
 - task: PublishTestResults@2
   inputs:
     testResultsFormat: 'JUnit'
-    testResultsFiles: 'reports/apiAutomation/junit-results/TestSummaryResults.xml'
+    testResultsFiles: './reports/apiAutomation/junit-results/TestSummaryResults.xml'
     testRunTitle: 'API Execution Results'
   condition: always()
 - task: AllureGenerate@1
   inputs:
-    resultsDir: 'reports/apiAutomation/allure-results'
+    resultsDir: './reports/apiAutomation/allure-results'
     targetDir: 'allure-report/$(Build.BuildNumber)'
   condition: always()
 - task: CmdLine@2
