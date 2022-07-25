@@ -1,0 +1,27 @@
+[
+  {
+    "responseData": {
+      "responseHeader": {},
+      "responseBody": {
+        "id": 2683,
+        "name": "Jai Ahluwalia",
+        "email": "ahluwalia_jai@parker.org",
+        "gender": "female",
+        "status": "inactive"
+      },
+      "responseCode": 200
+    }
+  },
+  {
+    "requestData": {
+      "requestHeader": {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      "requestBody": {},
+      "requestParamameter": {
+        "users": 2683
+      }
+    }
+  }
+]
