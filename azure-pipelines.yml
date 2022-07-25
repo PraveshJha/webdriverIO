@@ -14,13 +14,11 @@ steps:
   inputs:
     versionSpec: '16.0'
   displayName: 'Install Node.js'
-
 - script: |
     npm install
     npm run build
     npm run apitest
   displayName: 'npm install and build'
-
 - script:
 - task: PublishTestResults@2
   inputs:
@@ -28,21 +26,16 @@ steps:
     testResultsFiles: 'reports/apiAutomation/junit-results/TestSummaryResults.xml'
     testRunTitle: 'API Execution Results'
   condition: always()
-
-
 - task: AllureGenerate@1
   inputs:
     resultsDir: 'reports/apiAutomation/allure-results'
     targetDir: 'allure-report/$(Build.BuildNumber)'
   condition: always()
-  
 - task: CmdLine@2
   inputs:
     script: |
-      echo Write your commands here
-      
-      echo Hello world
-      
-      ls apiAutomation
+      echo Write your commands here    
+      echo Hello world     
+      ls reports
   displayName: 'Folder Name '
 
