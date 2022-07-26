@@ -48,6 +48,12 @@ steps:
     resultsDir: './reports/apiAutomation/allure-results'
     targetDir: '$(Build.BuildNumber)'
   condition: always()
+
+- task: AllureGenerate@1
+  inputs:
+    resultsDir: './reports/webAutomation/allure-results'
+    targetDir: '$(Build.ArtifactStagingDirectory)'
+  condition: always()
   
 - task: CmdLine@2
   inputs:
@@ -58,17 +64,19 @@ steps:
   displayName: 'Folder Name '
   condition: always()
 
-- task: publishhtmlreport@1
-  inputs:
-    htmlType: 'genericHTML'
-    htmlPath: '$(Build.BuildNumber)/'
-
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(Build.BuildNumber)'
-    ArtifactName: 'Execution Results'
+    ArtifactName: 'API Execution Results'
     publishLocation: 'Container'
   condition: always()
+  
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'UI Execution Results'
+    publishLocation: 'Container'
+  condition: always() 
 
 
 
