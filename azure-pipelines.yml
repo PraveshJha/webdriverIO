@@ -25,7 +25,7 @@ steps:
 
 - script:
     npm run webtest
-  displayName: 'API script execution'
+  displayName: 'Web script execution'
 
 - script:
 - task: PublishTestResults@2
