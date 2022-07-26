@@ -14,11 +14,14 @@ steps:
   inputs:
     versionSpec: '16.0'
   displayName: 'Install Node.js'
-- script: |
-    npm install
-    npm run apitest
 
-  displayName: 'npm install and build'
+- script:
+    npm install
+  displayName: 'npm install'
+
+- script:
+    npm run apitest
+  displayName: 'API script execution'
 
 - script:
 - task: PublishTestResults@2
