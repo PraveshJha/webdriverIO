@@ -32,10 +32,10 @@ steps:
 - script:
 - task: PublishTestResults@2
   inputs:
-    testResultsFormat: 'JUnit'
+    testResultsFormat: 'xUnit'
     testResultsFiles: './reports/apiAutomation/junit-results/TestSummaryResults.xml'
     testRunTitle: 'API Execution Results'
-    mergeTestResults: false   
+    mergeTestResults: false
   condition: always()
 
 - script:
