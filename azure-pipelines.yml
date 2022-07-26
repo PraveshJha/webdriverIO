@@ -49,7 +49,7 @@ steps:
 - task: publishhtmlreport@1
   inputs:
     htmlType: 'genericHTML'
-    htmlPath: 'allure-report/$(Build.BuildNumber)/index.html'
+    htmlPath: 'allure-report/$(Build.BuildNumber)/'
   
 
 
