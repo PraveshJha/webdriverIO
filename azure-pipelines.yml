@@ -42,6 +42,7 @@ steps:
     script: |
       echo Write your commands here    
       echo Hello world     
-      ls reports/apiAutomation/junit-results
+      ls allure-report/$(Build.BuildNumber)
   displayName: 'Folder Name '
+  condition: always()
 
