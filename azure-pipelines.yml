@@ -24,11 +24,23 @@ steps:
   displayName: 'API script execution'
 
 - script:
+    npm run webtest
+  displayName: 'API script execution'
+
+- script:
 - task: PublishTestResults@2
   inputs:
     testResultsFormat: 'JUnit'
     testResultsFiles: './reports/apiAutomation/junit-results/TestSummaryResults.xml'
     testRunTitle: 'API Execution Results'
+  condition: always()
+
+- script:
+- task: PublishTestResults@2
+  inputs:
+    testResultsFormat: 'JUnit'
+    testResultsFiles: './reports/webAutomation/junit-results/TestSummaryResults.xml'
+    testRunTitle: 'UI Execution Results'
   condition: always()
 
 - task: AllureGenerate@1
