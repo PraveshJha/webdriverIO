@@ -35,6 +35,7 @@ steps:
     testResultsFormat: 'JUnit'
     testResultsFiles: './reports/apiAutomation/junit-results/TestSummaryResults.xml'
     testRunTitle: 'API Execution Results'
+    mergeTestResults: false   
   condition: always()
 
 - script:
@@ -43,6 +44,7 @@ steps:
     testResultsFormat: 'JUnit'
     testResultsFiles: './reports/webAutomation/junit-results/TestSummaryResults.xml'
     testRunTitle: 'UI Execution Results'
+    mergeTestResults: false
   condition: always()
 
 - task: AllureGenerate@1
