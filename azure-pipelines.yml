@@ -46,10 +46,10 @@ steps:
   displayName: 'Folder Name '
   condition: always()
 
-- task: PublishHtmlReport@1
+- task: publishhtmlreport@1
   inputs:
-    reportDir: 'allure-report/$(Build.BuildNumber)/index.html'
-    tabName: 'Reports'
+    htmlType: 'genericHTML'
+    htmlPath: 'allure-report/$(Build.BuildNumber)/index.html'
   
 
 
