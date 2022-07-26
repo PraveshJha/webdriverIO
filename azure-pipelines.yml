@@ -56,6 +56,7 @@ steps:
     PathtoPublish: '$(Build.BuildNumber)'
     ArtifactName: 'Execution Results'
     publishLocation: 'Container'
+  condition: always()
 
 
 
