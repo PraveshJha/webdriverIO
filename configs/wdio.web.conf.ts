@@ -2,7 +2,7 @@ import { uiEnvDetails, uiExecutionConfig } from './execution.configuration'
 import { browserDriverVersion } from './browser.config'
 import ConfigUtility from '../configs/configUtility'
 const args = require('minimist')(process.argv.slice(2))
-const reportPath = '../reports/webAutomation/';
+const reportPath = '././reports/webAutomation/';
 const featureFilePath = './webAutomation/featureFile/';
 const stepDefinitionPath = './webAutomation/stepDefinitions/';
 export const config: WebdriverIO.Config = {
