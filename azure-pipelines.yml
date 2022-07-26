@@ -34,7 +34,7 @@ steps:
 - task: AllureGenerate@1
   inputs:
     resultsDir: './reports/apiAutomation/allure-results'
-    targetDir: 'allure-report/$(Build.BuildNumber)'
+    targetDir: '$(Build.BuildNumber)'
   condition: always()
   
 - task: CmdLine@2
@@ -42,14 +42,20 @@ steps:
     script: |
       echo Write your commands here    
       echo Hello world     
-      ls allure-report/$(Build.BuildNumber)
+      ls $(Build.BuildNumber)
   displayName: 'Folder Name '
   condition: always()
 
 - task: publishhtmlreport@1
   inputs:
     htmlType: 'genericHTML'
-    htmlPath: 'allure-report/$(Build.BuildNumber)/'
-  
+    htmlPath: '$(Build.BuildNumber)/'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.BuildNumber)'
+    ArtifactName: 'Execution Results'
+    publishLocation: 'Container'
+
 
 
