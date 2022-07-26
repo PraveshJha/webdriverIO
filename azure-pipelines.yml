@@ -22,10 +22,12 @@ steps:
 - script:
     npm run apitest
   displayName: 'API script execution'
+  condition: always()
 
 - script:
     npm run webtest
   displayName: 'Web script execution'
+  condition: always()
 
 - script:
 - task: PublishTestResults@2
