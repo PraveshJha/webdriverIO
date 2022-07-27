@@ -33,7 +33,7 @@ steps:
 - task: PublishTestResults@2
   inputs:
     testResultsFormat: 'JUnit'
-    testResultsFiles: './reports/apiAutomation/junit-results/TestSummaryResults.xml'
+    testResultsFiles: './reports/apiAutomation/junit-results/apiTestSummaryResults.xml'
     testRunTitle: 'API Execution Results'
     mergeTestResults: false
   condition: always()
@@ -42,7 +42,7 @@ steps:
 - task: PublishTestResults@2
   inputs:
     testResultsFormat: 'JUnit'
-    testResultsFiles: './reports/webAutomation/junit-results/TestSummaryResults.xml'
+    testResultsFiles: './reports/webAutomation/junit-results/uiTestSummaryResults.xml'
     testRunTitle: 'UI Execution Results'
     mergeTestResults: false
   condition: always()
