@@ -51,7 +51,7 @@ export const config: WebdriverIO.Config = {
         ['junit', {
             outputDir: reportPath + 'junit-results',
             outputFileFormat: function (options) { // optional
-                return `TestSummaryResults.xml`
+                return `apiTestSummaryResults.xml`
             }
         }]
     ],
