@@ -7,7 +7,7 @@ trigger:
 - main
 
 pool:
-  vmImage: agent
+  vmImage: windows-latest
 
 steps:
 - task: NodeTool@0
