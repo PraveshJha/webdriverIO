@@ -27,7 +27,7 @@ steps:
 - task: PublishTestResults@2
   inputs:
     testResultsFormat: 'JUnit'
-    testResultsFiles: './reports/apiAutomation/junit-results/apiTestSummaryResults.xml'
+    testResultsFiles: './reports/apiAutomation/junit-results/*.xml'
     testRunTitle: 'API Execution Results'
     mergeTestResults: false
   condition: always()
@@ -35,7 +35,7 @@ steps:
 - task: PublishTestResults@2
   inputs:
     testResultsFormat: 'JUnit'
-    testResultsFiles: './reports/webAutomation/junit-results/webTestSummaryResults.xml'
+    testResultsFiles: './reports/webAutomation/junit-results/*.xml'
     testRunTitle: 'UI Execution Results'
     mergeTestResults: false
   condition: always()
