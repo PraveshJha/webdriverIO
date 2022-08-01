@@ -2,7 +2,7 @@ export const uiExecutionConfig = {
 	"maxParallelInstances": 1,
 	"domain": "qa", //qa,dev,prod
 	"browser": "chrome",//chrome
-	"executionPlatform": "mobile", // desktop,mobile,tab
+	"executionPlatform": "desktop", // desktop,mobile,tab
 	"mobileDeviceName": "iPhone X",
 	"tabletName": "iPad Pro",
 	"tagExpression": "",

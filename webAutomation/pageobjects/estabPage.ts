@@ -26,7 +26,7 @@ class EstabPage extends BasePage {
         await (await this.chooseRoom).click();
          var totalRooms = HomePageData.TotalRooms;
         for (let roomNumber = 0; roomNumber < totalRooms; roomNumber++) {
-            await browser.pause(2000);
+            await browser.pause(3000);
             if (global.isMobileView) {
                 await this.selectBoardTypeOptionByIndex(1);
                 await this.selectRoomAndConfirmToBook();
