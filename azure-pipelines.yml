@@ -5,7 +5,6 @@
 
 trigger:
 - main
-
 pool:
   vmImage: windows-latest
 steps:
@@ -13,6 +12,18 @@ steps:
   inputs:
     versionSpec: '16.0'
   displayName: 'Install Node.js'
+- script:
+    npm install
+  displayName: 'npm install'
+- script:
+    npm run apitest
+  displayName: 'API script execution'
+  condition: always()
+- script:
+    npm run webtest
+  displayName: 'Web script execution'
+  condition: always()
+- script:
 - task: PublishTestResults@2
   inputs:
     testResultsFormat: 'JUnit'
@@ -27,4 +38,28 @@ steps:
     testResultsFiles: './reports/webAutomation/junit-results/webTestSummaryResults.xml'
     testRunTitle: 'UI Execution Results'
     mergeTestResults: false
+  condition: always()
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: './reports/apiAutomation/azure'
+    Contents: '**'
+    TargetFolder: '$(Build.BuildNumber)'
+  condition: always() 
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: './reports/webAutomation/azure'
+    Contents: '**'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+  condition: always() 
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.BuildNumber)'
+    ArtifactName: 'API Execution Results'
+    publishLocation: 'Container'
+  condition: always()
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'UI Execution Results'
+    publishLocation: 'Container'
   condition: always()
