@@ -1,6 +1,7 @@
 import { Given, When, Then } from '@wdio/cucumber-framework';
 import { RestResponse } from '../../utilities/restResponse'
 import GeneratePayload from '../components/generatePayLoad'
+import CommonFunctions from '../../utilities/commonFunctions';
 
 Then(/^Response code should be \'(.*)\'$/, async (responseCode: string) => {
   expect(Number(await RestResponse.responseCode)).toBe(Number(responseCode));
@@ -79,5 +80,28 @@ Then(/^Response key \'(.*)\' should contain \'(.*)\'$/, async (responseKey: stri
   var responseKeyValue = await GeneratePayload.getKeyValue(RestResponse.responseBody, responseKey)
   expectedValue = await GeneratePayload.getDynamicData(await expectedValue);
   expect(responseKeyValue.toString()).toContain(expectedValue.toString());
+});
+
+Then(/^Response key \'(.*)\' value between \'(.*)\'$/, async (responseKey: string, expectedValue: any) => {
+  var responseKeyValue = await GeneratePayload.getKeyValue(RestResponse.responseBody, responseKey)
+  var lowerRange = await expectedValue.toString().trim().split('-')[0];
+  lowerRange = await CommonFunctions.getNumberFromString(await GeneratePayload.getDynamicData(await lowerRange));
+  var upperRange = await expectedValue.toString().trim().split('-')[1];
+  upperRange = await CommonFunctions.getNumberFromString(await GeneratePayload.getDynamicData(await upperRange));
+  responseKeyValue = await CommonFunctions.getNumberFromString(responseKeyValue);
+  expect(Number(await responseKeyValue)).toBeGreaterThanOrEqual(Number(await lowerRange));
+  expect(Number(await responseKeyValue)).toBeLessThanOrEqual(Number(await upperRange));
+});
+
+Then(/^Response key \'(.*)\' should be within set \'(.*)\'$/, async (responseKey: string, expectedValue: any) => {
+  var responseKeyValue = await GeneratePayload.getKeyValue(RestResponse.responseBody, responseKey)
+  var allSetValue = expectedValue.split(',');
+  var expectedOutput =[];
+  for(let setCounter=0;setCounter<await allSetValue.length;setCounter++)
+  {
+    expectedOutput.push(await GeneratePayload.getDynamicData(await allSetValue[setCounter]))
+  }
+  responseKeyValue= await GeneratePayload.convertIntoDataObject(await responseKeyValue)
+  expect(expectedOutput).toContain(await responseKeyValue.toString());
 });
 

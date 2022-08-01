@@ -10,21 +10,12 @@ export class ConfigUtility {
 
     //#region [wdio reusable configuration code]
 
-    async generateAllureReportAfterEndOfExecution(platformName: string, deviceName: string, parentReportPath: string) {
-        var parentFolderName = platformName;
-        var reportPath = ''
-        if (platformName.toLocaleLowerCase().includes('api')) {
-            reportPath = parentReportPath + await DateTimeUtility.addOrSubtractDaysToCurrentDate(0, "DD MMM YYYY") + '/' + await DateTimeUtility.addOrSubtractDaysToCurrentDate(0, "HH_mm_ss");
-        }
-        else {
-            reportPath = parentReportPath + await DateTimeUtility.addOrSubtractDaysToCurrentDate(0, "DD MMM YYYY") + '/' + parentFolderName + '/' + await DateTimeUtility.addOrSubtractDaysToCurrentDate(0, "HH_mm_ss");
-            reportPath = reportPath + '-' + deviceName;
-        }
-        if (!fs.existsSync(reportPath)) {
-            await fs.mkdirSync(reportPath, { recursive: true });
+    async generateAllureReportAfterEndOfExecution(platformName: string, deviceName: string, parentReportPath: string, allurePreportPath: string) {
+        if (!fs.existsSync(allurePreportPath)) {
+            await fs.mkdirSync(allurePreportPath, { recursive: true });
         }
         const reportError = new Error('Could not generate Allure report')
-        const generation = await allure(['generate', parentReportPath + 'allure-results', '--clean', '-o', reportPath])
+        const generation = await allure(['generate', parentReportPath + 'allure-results', '--clean', '-o', allurePreportPath])
         return new Promise<void>((resolve, reject) => {
             const generationTimeout = setTimeout(
                 () => reject(reportError),
@@ -49,7 +40,7 @@ export class ConfigUtility {
         }
     }
 
-    async addBrowserCapability(platform: string, capabilities: any, mobileDeviceName: string, tabletDeviceName: string, browser:string) {
+    async addBrowserCapability(platform: string, capabilities: any, mobileDeviceName: string, tabletDeviceName: string, browser: string) {
         var customData = { executionPlatform: '', deviceName: '' }
         switch (platform.toLocaleLowerCase()) {
             case "mobile":
@@ -73,7 +64,7 @@ export class ConfigUtility {
                     capabilities[0].browserName = 'MicrosoftEdge';
                 }
                 else
-                capabilities[0].browserName = browser
+                    capabilities[0].browserName = browser
                 customData.executionPlatform = 'Desktop';
                 customData.deviceName = browser;
                 capabilities[0]['execution:options'] = customData;

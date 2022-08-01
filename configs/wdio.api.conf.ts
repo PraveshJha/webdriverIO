@@ -1,5 +1,6 @@
 import { apiEnvDetails, apiExecutionConfig } from '../configs/execution.configuration'
 import ConfigUtility from './configUtility'
+import DateTimeUtility from '../utilities/dateTimeUtility'
 const args = require('minimist')(process.argv.slice(2))
 const reportPath = '././reports/apiAutomation/';
 const featureFilePath = './apiAutomation/featureFile/';
@@ -51,7 +52,7 @@ export const config: WebdriverIO.Config = {
         ['junit', {
             outputDir: reportPath + 'junit-results',
             outputFileFormat: function (options) { // optional
-                return `apiTestSummaryResults.xml`
+                return `TestSummaryResults.xml`
             }
         }]
     ],
@@ -125,10 +126,21 @@ export const config: WebdriverIO.Config = {
     },
 
     onComplete: async function () {
-        if (apiExecutionConfig.executionAt.toLocaleLowerCase() === 'local') {
-            var platform = config.capabilities[0]['execution:options']['executionPlatform'];
-            var deviceName = config.capabilities[0]['execution:options']['deviceName'];
-            await ConfigUtility.generateAllureReportAfterEndOfExecution(platform, deviceName, reportPath);
+        var platform = config.capabilities[0]['execution:options']['executionPlatform'];
+        var deviceName = config.capabilities[0]['execution:options']['deviceName'];
+        var allureReport = ''
+        if (apiExecutionConfig.executionAt.toLocaleLowerCase().trim() === 'azure') {
+            allureReport = reportPath+'azure';
         }
+        else {
+            if (platform.toLocaleLowerCase().includes('api')) {
+                allureReport = reportPath + await DateTimeUtility.addOrSubtractDaysToCurrentDate(0, "DD MMM YYYY") + '/' + await DateTimeUtility.addOrSubtractDaysToCurrentDate(0, "HH_mm_ss");
+            }
+            else {
+                allureReport = reportPath + await DateTimeUtility.addOrSubtractDaysToCurrentDate(0, "DD MMM YYYY") + '/' + platform + '/' + await DateTimeUtility.addOrSubtractDaysToCurrentDate(0, "HH_mm_ss");
+                allureReport = reportPath + '-' + deviceName;
+            }
+        }
+        await ConfigUtility.generateAllureReportAfterEndOfExecution(platform, deviceName, reportPath, allureReport);
     }
 }

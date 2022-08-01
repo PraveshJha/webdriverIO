@@ -5,16 +5,28 @@ import HomePage from '../pageobjects/homePage';
 
 Given(/^I am on the Home page$/, async () => {
 	await HomePage.navigateToHomePage();
-	expect(await HomePage.isLogoDisplayed()).toBe(true);
 });
 
 When(/^I select \'(.*)\' tab$/, async (tabName) => {
 	await HomePage.selectTab(tabName);
 });
 
-Then(/^\'(.*)\' tab should be selected$/, async (tabName) => {
-	 expect(await HomePage.isTabSelected(tabName)).toBe(true);
+When(/^I select destination as \'(.*)\'$/, async (destinationName:string) => {
+	await HomePage.selectDestination(destinationName);
 });
+
+When(/^I select checkindate which is \'(.*)\' days ahead from the present day with stay of duration \'(.*)\'$/, async (checkinDate:string,durationOfStay:string) => {
+	await HomePage.populateDate(Number(checkinDate),Number(durationOfStay))
+});
+
+When(/^I add guest \'(.*)\' details$/, async (guestInfo:any) => {
+	await HomePage.selectRoomAndGuests(await guestInfo)
+});
+
+When(/^I click on Search button$/, async () => {
+	await HomePage.clickonSearchButton();
+});
+
 
 //#endregion [Home Page Steps]
 

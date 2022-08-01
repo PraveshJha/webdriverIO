@@ -4,7 +4,7 @@ export default class BasePage {
 
     //#region [Common elelement Property)]
 
-    private get acceptCookiesButton() { return $("//button[text()='Accept']"); }
+    private get acceptCookiesButton() { return $("//button/span[contains(text(),'Accept')]"); }
 
 
     //#endregion

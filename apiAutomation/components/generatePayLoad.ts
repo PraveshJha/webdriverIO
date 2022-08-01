@@ -16,7 +16,7 @@ export class GeneratePayLoad {
 
   public async updatePayload(controllerName: string, dataTable: any) {
     var defaultPayLoad = await this.initializePayload(controllerName);
-    var defaultPayloadVariableParams = defaultPayLoad['variables'];
+    var defaultPayloadVariableParams = await defaultPayLoad;
     var variableParamsToUpdate = await dataTable.rawTable;
     for (let param = 0; param < await variableParamsToUpdate.length; param++) {
       var paramKey = await variableParamsToUpdate[param][0];
@@ -24,7 +24,7 @@ export class GeneratePayLoad {
       paramValue = await this.getDynamicData(paramValue);
       defaultPayloadVariableParams = await this.updateJsonObjectValueByKey(await defaultPayloadVariableParams, paramKey, paramValue);
     }
-    defaultPayLoad['variables'] = defaultPayloadVariableParams;
+    defaultPayLoad = await defaultPayloadVariableParams;
     RestRequest.requestBody = await defaultPayLoad;
   }
 

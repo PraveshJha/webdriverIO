@@ -2,16 +2,14 @@ export const uiExecutionConfig = {
 	"maxParallelInstances": 1,
 	"domain": "qa", //qa,dev,prod
 	"browser": "chrome",//chrome
-	"executionPlatform": "desktop", // desktop,mobile
+	"executionPlatform": "mobile", // desktop,mobile,tab
 	"mobileDeviceName": "iPhone X",
 	"tabletName": "iPad Pro",
 	"tagExpression": "",
-	"executionAt" :"local" // local,azure
+	"executionAt" :"azure" // local,azure
 };
 export const uiEnvDetails = {
-	"qa": "https://www.emirates.com/in/english/",
-	"dev": "https://www.emirates.com/in/english/",
-	"prod": "https://www.emirates.com/in/english/"
+	"qa": "https://www.travelrepublic.co.uk/"
 };
 
 export const apiExecutionConfig = {
@@ -20,10 +18,8 @@ export const apiExecutionConfig = {
 	"tagExpression": "",
 	"isMock": true,
 	"requestQueryFormat": false,
-	"executionAt" :"local" // local,azure
+	"executionAt" :"azure" // local,azure
 };
 export const apiEnvDetails = {
-	"qa": "https://gorest.co.in/",
-	"dev": "https://www.emirates.com/in/english/",
-	"prod": "https://www.emirates.com/in/english/"
+	"qa": "https://gorest.co.in/"
 };
