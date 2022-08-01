@@ -8,28 +8,11 @@ trigger:
 
 pool:
   vmImage: windows-latest
-
 steps:
 - task: NodeTool@0
   inputs:
     versionSpec: '16.0'
   displayName: 'Install Node.js'
-
-- script:
-    npm install
-  displayName: 'npm install'
-
-- script:
-    npm run apitest
-  displayName: 'API script execution'
-  condition: always()
-
-- script:
-    npm run webtest
-  displayName: 'Web script execution'
-  condition: always()
-
-- script:
 - task: PublishTestResults@2
   inputs:
     testResultsFormat: 'JUnit'
@@ -37,52 +20,11 @@ steps:
     testRunTitle: 'API Execution Results'
     mergeTestResults: false
   condition: always()
-
 - script:
 - task: PublishTestResults@2
   inputs:
     testResultsFormat: 'JUnit'
-    testResultsFiles: './reports/webAutomation/junit-results/uiTestSummaryResults.xml'
+    testResultsFiles: './reports/webAutomation/junit-results/webTestSummaryResults.xml'
     testRunTitle: 'UI Execution Results'
     mergeTestResults: false
-  condition: always()
-
-- task: AllureGenerate@1
-  inputs:
-    resultsDir: './reports/apiAutomation/allure-results'
-    targetDir: '$(Build.BuildNumber)'
-  condition: always()
-
-- task: AllureGenerate@1
-  inputs:
-    resultsDir: './reports/webAutomation/allure-results'
-    targetDir: '$(Build.ArtifactStagingDirectory)'
-  condition: always()
-  
-- task: CmdLine@2
-  inputs:
-    script: |
-      echo Write your commands here    
-      echo Hello world     
-      ls $(Build.BuildNumber)
-  displayName: 'Folder Name '
-  condition: always()
-
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: '$(Build.BuildNumber)'
-    ArtifactName: 'API Execution Results'
-    publishLocation: 'Container'
-  condition: always()
-  
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'UI Execution Results'
-    publishLocation: 'Container'
-  condition: always() 
-
-- task: AzureStaticWebApp@0
-  inputs:
-    app_location: '$(Build.ArtifactStagingDirectory)'
   condition: always()
