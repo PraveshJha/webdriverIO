@@ -15,7 +15,7 @@ steps:
 - task: PublishTestResults@2
   inputs:
     testResultsFormat: 'JUnit'
-    testResultsFiles: './reports/webAutomation/junit-results/webTestSummaryResults.xml'
-    testRunTitle: 'Web Execution Results'
+    testResultsFiles: './reports/apiAutomation/junit-results/apiTestSummaryResults.xml'
+    testRunTitle: 'API Execution Results'
     mergeTestResults: false
   condition: always()
