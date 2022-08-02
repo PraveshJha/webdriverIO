@@ -13,11 +13,12 @@ class HotelSearchResultsPage extends BasePage {
 
     public async verifyHotelSearchResultsPage() {
 
-        await (await this.viewMoreButton).waitForDisplayed({ timeout: 60000, timeoutMsg: "Hotel Search Results page is not displayed after waiting 90 seconds" })
+        await (await this.viewMoreButton).waitForDisplayed({ timeout: 90000, timeoutMsg: "Hotel Search Results page is not displayed after waiting 90 seconds" })
         await browser.pause(3000);
     }
 
     public async selectHotel() {
+		 await browser.pause(2000);
         await (await this.viewMoreButton).scrollIntoView();
         await (await this.viewMoreButton).click();
        // await this.jsClick(await this.viewMoreButton)
