@@ -1,10 +1,12 @@
 import BasePage from '../pageobjects/basePage';
 import DateTimeUtility from '../../utilities/dateTimeUtility'
-import {HomePageData} from '../dataModal/homePageData';
+import { HomePageData } from '../dataModal/homePageData';
+import { isGetAccessor } from 'typescript';
 class HomePage extends BasePage {
 
     //#region [Home Page Locator]
 
+    private get crossIcon() { return $("//div[contains(@class,'dialog')]//button[@aria-label='Close']"); }
     private get searchButton() { return $("//button/span[text()='Search']"); }
     private async productTabName(tabName: string) {
         return await $("//*[@role='tablist']//*[contains(text(),'" + tabName + "')]");
@@ -13,7 +15,7 @@ class HomePage extends BasePage {
     private get textboxDestination() { return $('#destination-autocompleter-field'); }
     private get labelDestination() { return $("//button[text()='Add a destination']"); }
     private async resultDestinationAutoCompleter(searchResult: string) {
-        return await $("//ul[@id='destination-autocompleter-list']/li/ul/li[1]//*[contains(text(),'"+searchResult+"')]");
+        return await $("//ul[@id='destination-autocompleter-list']/li/ul/li[1]//*[contains(text(),'" + searchResult + "')]");
     }
     private get headerDestinationAutoCompleter() { return $("//span[contains(text(),'Destination or hotel')]"); }
     private get buttonAddDates() { return $("//button[text()='Add dates']"); }
@@ -27,43 +29,77 @@ class HomePage extends BasePage {
     }
     private get buttonDone() { return $("//span[text()='Done']/.."); }
     private get popupRoomandGuest() { return $("//*[text()='Rooms & guests']"); }
-    private async childAgeInputAlertButton(age:string) {
-        return await $("//label[@for='age-toggle-"+age+"']");
+    private async childAgeInputAlertButton(age: string) {
+        return await $("//label[@for='age-toggle-" + age + "']");
     }
     private get childAgeInputAlert() { return $("//*[text()='Age of child at time of return']"); }
-    
-    private async childInput(roomNumber:string, childNumber:string) {
-        if(Number(childNumber) ==1)
-        {
-            return await $("//span[text()='Room "+roomNumber+"']/../../..//*[text()='Child']/..//input");
+
+    private async childInput(roomNumber: string, childNumber: string) {
+        if (Number(roomNumber) === 1) {
+            if (Number(childNumber) == 1) {
+                return await $("//*[text()='Child']/..//input");
+            }
+            else
+                return await $("//*[text()='" + childNumber + "' and text()='Child']/..//input");
+        }
+        else {
+            if (Number(childNumber) == 1) {
+                return await $("//span[text()='Room " + roomNumber + "']/../../..//*[text()='Child']/..//input");
+            }
+            else
+                return await $("//span[text()='Room " + roomNumber + "']/../../..//*[text()='" + childNumber + "' and text()='Child']/..//input");
+        }
+    }
+    private async plusIconAdultField(roomNumber: string) {
+        if (Number(roomNumber) === 1) {
+            return await $("//button[@aria-label='Increase' and @aria-controls='adults-picker']");
         }
         else
-        return await $("//span[text()='Room "+roomNumber+"']/../../..//*[text()='"+childNumber+"' and text()='Child']/..//input");
+            return await $("//span[text()='Room " + roomNumber + "']/../..//button[@aria-label='Increase' and @aria-controls='adults-picker']");
     }
-    private async plusIconAdultField(roomNumber:string) {
-        return await $("//span[text()='Room "+roomNumber+"']/../..//button[@aria-label='Increase' and @aria-controls='adults-picker']");
-    }
-    private async plusIconChildrenField(roomNumber:string) {
-        return await $("//span[text()='Room "+roomNumber+"']/../..//button[@aria-label='Increase' and @aria-controls='children-picker']");
-    }
-
-    private async minusIconAdultField(roomNumber:string) {
-        return await $("//span[text()='Room "+roomNumber+"']/../..//button[@aria-label='Decrease' and @aria-controls='adults-picker']");
-    }
-    private async minusIconChildrenField(roomNumber:string) {
-        return await $("//span[text()='Room "+roomNumber+"']/../..//button[@aria-label='Decrease' and @aria-controls='children-picker']");
+    private async plusIconChildrenField(roomNumber: string) {
+        if (Number(roomNumber) === 1) {
+            return await $("//button[@aria-label='Increase' and @aria-controls='children-picker']");
+        }
+        else
+            return await $("//span[text()='Room " + roomNumber + "']/../..//button[@aria-label='Increase' and @aria-controls='children-picker']");
     }
 
-    private async inputChildrenField(roomNumber:string) {
-        return await $("//span[text()='Room "+roomNumber+"']/../..//input[@id='children-picker']");
+    private async minusIconAdultField(roomNumber: string) {
+        if (Number(roomNumber) === 1) {
+            return await $("//button[@aria-label='Decrease' and @aria-controls='adults-picker']");
+        }
+        else
+            return await $("//span[text()='Room " + roomNumber + "']/../..//button[@aria-label='Decrease' and @aria-controls='adults-picker']");
+    }
+    private async minusIconChildrenField(roomNumber: string) {
+        if (Number(roomNumber) === 1) {
+            return await $("//button[@aria-label='Decrease' and @aria-controls='children-picker']");
+        }
+        else {
+            return await $("//span[text()='Room " + roomNumber + "']/../..//button[@aria-label='Decrease' and @aria-controls='children-picker']");
+        }
+
     }
 
-    private async inputAdultField(roomNumber:string) {
-        return await $("//span[text()='Room "+roomNumber+"']/../..//input[@id='adults-picker']");
+    private async inputChildrenField(roomNumber: string) {
+        if (Number(roomNumber) === 1) {
+            return await $("//input[@id='children-picker']");
+        }
+        else
+            return await $("//span[text()='Room " + roomNumber + "']/../..//input[@id='children-picker']");
     }
 
-    private async inputRoomSelection(roomCount:string) {
-        return await $("//input[@id='room-toggle-"+roomCount+"']");
+    private async inputAdultField(roomNumber: string) {
+        if (Number(roomNumber) === 1) {
+            return await $("//input[@id='adults-picker']");
+        }
+        else
+            return await $("//span[text()='Room " + roomNumber + "']/../..//input[@id='adults-picker']");
+    }
+
+    private async inputRoomSelection(roomCount: string) {
+        return await $("//input[@id='room-toggle-" + roomCount + "']");
     }
 
     private get buttonGuests() { return $("//*[text()='Guests']/..//button"); }
@@ -113,8 +149,7 @@ class HomePage extends BasePage {
     }
 
     async openDestinationAutoCompleter() {
-        if (!await (this.headerDestinationAutoCompleter).isDisplayed())
-        {
+        if (!await (this.headerDestinationAutoCompleter).isDisplayed()) {
             await (await this.labelDestination).click();
             await browser.pause(1000);
         }
@@ -127,9 +162,12 @@ class HomePage extends BasePage {
         HomePageData.CheckoutDate = checkOutDate;
         await this.selectDate(checkinDate);
         await this.selectDate(checkOutDate);
+        if (global.isMobileView) {
+            await this.closeDialog();
+        }
     }
 
-    async selectDate(date:string) {
+    async selectDate(date: string) {
         await this.openCalenderForm()
         await this.selectMonthFromCalender(date);
         var dateLevel = await DateTimeUtility.getDateFormatFromGivenDate(date, "DD-MMM-yyyy", "ddd MMM DD, yyyy");
@@ -149,7 +187,7 @@ class HomePage extends BasePage {
         return true;
     }
 
-    async selectMonthFromCalender(date:string) {
+    async selectMonthFromCalender(date: string) {
         await (await this.calenderDefaultMonth).waitForDisplayed();
         var presentDate = await (await this.calenderDefaultMonth).getText();
         presentDate = await DateTimeUtility.getDateFormatFromGivenDate(presentDate, "MMMM yyyy", "DD-MMM-yyyy");
@@ -168,7 +206,7 @@ class HomePage extends BasePage {
         }
     }
 
-    async selectRoomAndGuests(gestInfo:any) {
+    async selectRoomAndGuests(gestInfo: any) {
         try {
             gestInfo = JSON.parse(gestInfo);
         }
@@ -177,7 +215,7 @@ class HomePage extends BasePage {
         var totalRooms = await gestInfo.length;
         HomePageData.TotalRooms = totalRooms;
         HomePageData.RoomAndGuestInformation = gestInfo;
-        var childInfo:any;
+        var childInfo: any;
         var totalAdult = 0;
         var totalChild = 0;
         var totalInfant = 0;
@@ -261,7 +299,7 @@ class HomePage extends BasePage {
 
     }
 
-    async selectChildAge(roomNumber:string, childNumber:string, Age:string) {
+    async selectChildAge(roomNumber: string, childNumber: string, Age: string) {
 
         var selectedChildAge = await (await this.childInput(await roomNumber, await childNumber)).getValue();
         if (Number(selectedChildAge) === Number(Age)) {
@@ -283,6 +321,13 @@ class HomePage extends BasePage {
     async clickonSearchButton() {
         await (await this.searchButton).waitForClickable({ timeoutMsg: "Seach button is not clickable" });
         await (await this.searchButton).click();
+    }
+
+    async closeDialog() {
+        var isdialoagOpen = await (await this.crossIcon).isDisplayed();
+        if (isdialoagOpen) {
+            await (await this.crossIcon).click();
+        }
     }
 
     //#endregion [Home Page Method]

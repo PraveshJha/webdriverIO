@@ -1,39 +1,48 @@
 import BasePage from './basePage';
-import {HomePageData} from '../dataModal/homePageData';
+import { HomePageData } from '../dataModal/homePageData';
 class EstabPage extends BasePage {
 
     //#region [Hotel Search Results Page Locator]
 
+    private get overviewTab() { return $("//button[@aria-controls='overview-tabpanel']"); }
     private get chooseRoom() {
         return $("//button/span[contains(text(),'Confirm Room') or contains(text(),'Choose Room') or contains(text(),'Select Room') or contains(text(),'Confirm and Continue To Book')]");
     }
-    private get confirmAndContinueToBook() { return $("//button/span[contains(text(),'Confirm Room') or contains(text(),'Select Room') or contains(text(),'Choose Room') or contains(text(),'Continue')]"); }
     private async listOfAllBoardOptions() {
         return await $$("//p[contains(@data-id,'_board_') and contains(@data-id,'_desc')]");
     }
-    private boardTypeOnMobile(index) { return $("(//article[@class='sc-c-card'])["+index+"]"); }
+    private boardTypeOnMobile(index) { return $("(//article[@class='sc-c-card'])[" + index + "]"); }
+
+    private get selectRoom() {
+        return $("//button[contains(text(),'Select Room')]");
+    }
 
     //#endregion [Hotel Search Results  Locator]
 
     //#region [Hotel Search Results Page]
 
     public async verifyHotelEstabPage() {
-
-        await (await this.chooseRoom).waitForDisplayed({ timeout: 60000, timeoutMsg: "Hotel Search Results page is not displayed after waiting 90 seconds" })
+        await (await this.overviewTab).waitForDisplayed({ timeout: 60000, timeoutMsg: "Hotel Search Results page is not displayed after waiting 90 seconds" })
+        await browser.pause(2000);
     }
 
     async selectAllRooms() {
         await (await this.chooseRoom).click();
-         var totalRooms = HomePageData.TotalRooms;
+        var totalRooms = HomePageData.TotalRooms;
         for (let roomNumber = 0; roomNumber < totalRooms; roomNumber++) {
-            await browser.pause(3000);
+            await browser.pause(2000);
             if (global.isMobileView) {
                 await this.selectBoardTypeOptionByIndex(1);
-                await this.selectRoomAndConfirmToBook();
+            }
+            var buttonCheck = await this.isselectRoomButtonDisplayed();
+            if(buttonCheck)
+            {
+                await this.selectRoomButton();
             }
             else{
-            await this.selectRoomButton();
+                await this.selectRoomButtonFromMobile();
             }
+                
         }
     }
 
@@ -43,9 +52,15 @@ class EstabPage extends BasePage {
         await (await this.chooseRoom).click();
     }
 
-    async selectRoomAndConfirmToBook() {
-        await (await this.confirmAndContinueToBook).scrollIntoView();
-        await (await this.confirmAndContinueToBook).click();
+    async isselectRoomButtonDisplayed() {
+        await browser.pause(2000);
+        return await (await this.chooseRoom).isDisplayed();
+    }
+
+    async selectRoomButtonFromMobile() {
+        await (await this.selectRoom).waitForDisplayed();
+        await (await this.selectRoom).scrollIntoView();
+        await (await this.selectRoom).click();
     }
 
     async selectBoardTypeOptionByIndex(index: number = 0) {
