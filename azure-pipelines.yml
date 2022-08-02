@@ -20,7 +20,7 @@ steps:
   displayName: 'Web script execution'
   condition: always()
 - script:
-npm run apitest
+    npm run apitest
   displayName: 'API script execution'
   condition: always()
 - task: PublishTestResults@2
