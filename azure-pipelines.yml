@@ -16,11 +16,11 @@ steps:
     npm install
   displayName: 'npm install'
 - script:
-    npm run apitest
+      npm run apitest
   displayName: 'API script execution'
   condition: always()
 - script:
-    npm run webtest
+      npm run webtest
   displayName: 'Web script execution'
   condition: always()
 - script:
