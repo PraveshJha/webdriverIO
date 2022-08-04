@@ -3,7 +3,7 @@ export const uiExecutionConfig = {
 	"domain": "qa", //qa,dev,prod
 	"browser": "chrome",//chrome
 	"executionPlatform": "desktop", // desktop,mobile,tab
-	"mobileDeviceName": "iPhone X",
+	"mobileDeviceName": "iPhone 8", // iPhone 8,Pixel 2 XL,iPhone X
 	"tabletName": "iPad Pro",
 	"tagExpression": "",
 	"executionAt" :"azure" // local,azure
