@@ -42,7 +42,7 @@ export const config: WebdriverIO.Config = {
         acceptInsecureCerts: true
     }],
     connectionRetryCount: 3,
-    reporters: ['spec',
+    reporters: [
         ['allure', {
             outputDir: reportPath + 'allure-results',
             disableWebdriverStepsReporting: true,
@@ -52,7 +52,7 @@ export const config: WebdriverIO.Config = {
         ['junit', {
             outputDir: reportPath + 'junit-results',
             outputFileFormat: function (options) { // optional
-                return `apiTestSummaryResults.xml`
+                return `TestSummaryResults.xml`
             }
         }]
     ],
