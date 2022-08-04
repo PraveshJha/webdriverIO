@@ -12,12 +12,14 @@ class GuestInformationPage extends BasePage {
     //#region [Hotel Search Results Page]
 
     public async verifyGuestInfoPage() {
-        if (global.isMobileView) 
-        {
+        if (global.isMobileView) {
             await (await this.bookingSummary).waitForDisplayed({ timeout: 60000, timeoutMsg: "Hotel Search Results page is not displayed after waiting 90 seconds" })
+            await browser.pause(3000);
         }
-        else
-        await (await this.pageHeader).waitForDisplayed({ timeout: 60000, timeoutMsg: "Hotel Search Results page is not displayed after waiting 90 seconds" })
+        else {
+            await (await this.pageHeader).waitForDisplayed({ timeout: 60000, timeoutMsg: "Hotel Search Results page is not displayed after waiting 90 seconds" })
+            await browser.pause(3000);
+        }
     }
 
     //#endregion [Home Page Method]

@@ -6,7 +6,7 @@ class EstabPage extends BasePage {
 
     private get overviewTab() { return $("//button[@aria-controls='overview-tabpanel']"); }
     private get chooseRoom() {
-        return $("//button/span[contains(text(),'Confirm Room') or contains(text(),'Choose Room') or contains(text(),'Select Room') or contains(text(),'Confirm and Continue To Book')]");
+        return $("//button/span[contains(text(),'Confirm Room') or contains(text(),'Choose Room') or contains(text(),'Select Room') or contains(text(),'Confirm and Continue To Book') or contains(text(),'Continue to book')]");
     }
     private async listOfAllBoardOptions() {
         return await $$("//p[contains(@data-id,'_board_') and contains(@data-id,'_desc')]");
@@ -27,6 +27,7 @@ class EstabPage extends BasePage {
     }
 
     async selectAllRooms() {
+        await browser.pause(3000);
         await (await this.chooseRoom).click();
         var totalRooms = HomePageData.TotalRooms;
         for (let roomNumber = 0; roomNumber < totalRooms; roomNumber++) {
@@ -50,6 +51,7 @@ class EstabPage extends BasePage {
         await (await this.chooseRoom).waitForDisplayed();
         await (await this.chooseRoom).scrollIntoView();
         await (await this.chooseRoom).click();
+        await browser.pause(2000);
     }
 
     async isselectRoomButtonDisplayed() {
@@ -61,6 +63,7 @@ class EstabPage extends BasePage {
         await (await this.selectRoom).waitForDisplayed();
         await (await this.selectRoom).scrollIntoView();
         await (await this.selectRoom).click();
+        await browser.pause(2000);
     }
 
     async selectBoardTypeOptionByIndex(index: number = 0) {

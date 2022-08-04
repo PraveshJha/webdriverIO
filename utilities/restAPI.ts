@@ -9,7 +9,7 @@ export class RestAPI {
             method: methodName.toLocaleLowerCase(),
             headers: requestHeader,
         }
-        if (methodName.toLocaleLowerCase() === 'post' || methodName.toLocaleLowerCase() === 'put') {
+        if (methodName.toLocaleLowerCase() === 'post' || methodName.toLocaleLowerCase() === 'put' || methodName.toLocaleLowerCase() === 'patch') {
             request['body'] = JSON.stringify(requestBody);
         }
         if (!baseUrl.substring(baseUrl.length - 1).includes('/')) {
@@ -20,7 +20,7 @@ export class RestAPI {
         }
         var appUrl = baseUrl + endPointURL;
         if (appUrl.substring(appUrl.length - 1).includes('/')) {
-            appUrl = appUrl.substring(0,appUrl.length-1);
+            appUrl = appUrl.substring(0, appUrl.length - 1);
         }
         if (apiExecutionConfig.requestQueryFormat) {
             const esc = encodeURIComponent;
@@ -32,16 +32,15 @@ export class RestAPI {
             }
             catch (error) { }
         }
-        else{
+        else {
             var allPrams = Object.keys(requestParam);
             var stringForRequestParam = '';
-            for(let paramCounter=0;paramCounter<allPrams.length;paramCounter++)
-            {
+            for (let paramCounter = 0; paramCounter < allPrams.length; paramCounter++) {
                 var KeyName = allPrams[paramCounter];
                 var keyValue = await requestParam[KeyName];
-                stringForRequestParam = await stringForRequestParam+ KeyName+'/'+keyValue;
+                stringForRequestParam = await stringForRequestParam + KeyName + '/' + keyValue;
             }
-            appUrl = appUrl +'/'+stringForRequestParam;
+            appUrl = appUrl + '/' + stringForRequestParam;
         }
         try {
             apiResponse = await fetch(appUrl, request);

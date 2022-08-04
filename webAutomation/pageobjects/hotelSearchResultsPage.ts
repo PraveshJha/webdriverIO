@@ -18,10 +18,9 @@ class HotelSearchResultsPage extends BasePage {
     }
 
     public async selectHotel() {
-		 await browser.pause(2000);
+        await browser.pause(3000);
         await (await this.viewMoreButton).scrollIntoView();
         await (await this.viewMoreButton).click();
-       // await this.jsClick(await this.viewMoreButton)
     }
 
     //#endregion [Home Page Method]

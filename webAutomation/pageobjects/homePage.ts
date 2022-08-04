@@ -15,7 +15,7 @@ class HomePage extends BasePage {
     private get textboxDestination() { return $('#destination-autocompleter-field'); }
     private get labelDestination() { return $("//button[text()='Add a destination']"); }
     private async resultDestinationAutoCompleter(searchResult: string) {
-        return await $("//ul[@id='destination-autocompleter-list']/li/ul/li[1]//*[contains(text(),'" + searchResult + "')]");
+        return await $("//ul[@id='destination-autocompleter-list']/li[1]/ul/li[1]//div/div/div[contains(normalize-space(.),'"+searchResult+"')]");
     }
     private get headerDestinationAutoCompleter() { return $("//span[contains(text(),'Destination or hotel')]"); }
     private get buttonAddDates() { return $("//button[text()='Add dates']"); }
