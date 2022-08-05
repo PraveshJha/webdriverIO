@@ -6,7 +6,7 @@ export const uiExecutionConfig = {
 	"mobileDeviceName": "iPhone 8", // iPhone 8,Pixel 2 XL,iPhone X
 	"tabletName": "iPad Pro",
 	"tagExpression": "",
-	"executionAt" :"azure" // local,azure
+	"executionAt" :"azure" // local,azure,Test
 };
 export const uiEnvDetails = {
 	"qa": "https://www.travelrepublic.co.uk/"
